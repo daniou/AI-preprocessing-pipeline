@@ -4,25 +4,9 @@ import config
 import soundfile as sf
 
 
-
-
-
 class VideoPreprocessing:
     def __init__(self, video_path):
         self.video_path = video_path
-
-    def save_intervals_as_mp3(self, intervals, output_path):
-        for i, interval in enumerate(intervals):
-            audio_data = interval
-            file_name = f"{output_path[:-4]}_{i}.mp3"
-            sf.write(file_name, audio_data, config.TARGET_AUDIO_SAMPLERATE)
-
-
-    def detect_silence_intervals(self, audio_path,top_db=20):
-        print(audio_path)
-        y, sr = librosa.load(audio_path)
-        intervals = librosa.effects.split(y, top_db=top_db)
-        return intervals
 
     def split_media(self, intervals, output_path):
         clip = mp.VideoFileClip(self.video_path)
@@ -41,8 +25,10 @@ class VideoPreprocessing:
 
     def split_video_in_talking_intervals(self, output_path):
         audio_path = output_path.replace("mp4", "mp3")
-        intervals = self.detect_silence_intervals(audio_path)
-        self.save_intervals_as_mp3(intervals,output_path)
+        audio_preprocessing = AudioPreprocessing(audio_path)
+        intervals = audio_preprocessing.split_audio_by_silence()
+        audio_preprocessing.save_audio_intervals(intervals, output_dir)
+        self.split_media(intervals)
 
 
     def downsample_video(self, output_path, target_fps=config.TARGET_VIDEO_FPS,
