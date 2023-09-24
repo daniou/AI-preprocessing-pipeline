@@ -1,0 +1,10 @@
+Pillow
+tabulate
+SpeechRecognition
+moviepy
+pydub
+pandas
+librosa
+soundfile
+numpy
+tqdm

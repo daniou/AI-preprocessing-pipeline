@@ -3,7 +3,7 @@ import pandas as pd
 from tabulate import tabulate
 
 import config
-from Preprocessing import Preprocess
+from preprocessing import Preprocess
 
 # TODO: CHECK QUE LOS NOMBRES TENGAN TODOS EL MISMO NUMERO DE FEATURES Y QUE ESTAS SEAN VALIDAS
 # TODO: PARA LAS FEATURES QUIZAS SE PODRÍA HACER UN CSV VINCULADO A CADA FILE

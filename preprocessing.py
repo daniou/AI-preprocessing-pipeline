@@ -4,7 +4,6 @@ from tqdm import tqdm
 import config
 from video_preprocessing import VideoPreprocessing
 
-
 class Preprocess:
     def __init__(self, path):
         self.path = path
