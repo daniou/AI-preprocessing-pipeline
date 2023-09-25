@@ -41,6 +41,7 @@ class Preprocess:
                 folder_path = os.path.join(source_path, folder)
                 destination_folder_path = os.path.join(destination_path, folder)
                 files = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
+                print("nose loc000", files)
                 for file in files:
                     file_path = os.path.join(folder_path, file)
                     destination_file_path = os.path.join(destination_folder_path, file)

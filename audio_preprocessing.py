@@ -12,7 +12,7 @@ class AudioPreprocessing:
         y, sr = librosa.load(self.audio_path)
 
         # Detectar segmentos de silencio en el audio
-        intervals = librosa.effects.split(y, top_db=top_db, ref=np.max, frame_length=2048, hop_length=512)
+        intervals = librosa.effects.split(y, top_db=top_db, ref=np.max, frame_length=4096, hop_length=512)
         return intervals
 
     def save_audio_intervals(self, intervals, output_dir):
@@ -25,6 +25,7 @@ class AudioPreprocessing:
         for i, (start, end) in enumerate(intervals):
             audio_segment = y[start:end]
             output_path = os.path.join(output_dir, f'segment_{i}.wav')
+            print("+++++", output_path)
             sf.write(output_path, audio_segment, sr)
 
 
