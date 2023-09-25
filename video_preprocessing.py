@@ -1,7 +1,9 @@
-import librosa
+import os
+
 import moviepy.editor as mp
 import config
-import soundfile as sf
+
+from audio_preprocessing import AudioPreprocessing
 
 
 class VideoPreprocessing:
@@ -27,9 +29,9 @@ class VideoPreprocessing:
         audio_path = output_path.replace("mp4", "mp3")
         audio_preprocessing = AudioPreprocessing(audio_path)
         intervals = audio_preprocessing.split_audio_by_silence()
+        output_dir = os.path.dirname(audio_path)
         audio_preprocessing.save_audio_intervals(intervals, output_dir)
-        self.split_media(intervals)
-
+        self.split_media(intervals, output_dir)
 
     def downsample_video(self, output_path, target_fps=config.TARGET_VIDEO_FPS,
                          resolution_scale=config.TARGET_VIDEO_RESOLUTION_SCALE,
@@ -40,7 +42,7 @@ class VideoPreprocessing:
         # Extraer el audio y guardar el archivo mp3
         audio = video.audio
         audio_path = output_path.replace(".mp4", ".mp3")
-        audio.write_audiofile(audio_path, fps=audio_samplerate, bitrate=audio_bitrate,  logger=None)
+        audio.write_audiofile(audio_path, fps=audio_samplerate, bitrate=audio_bitrate, logger=None)
 
         # Reducción proporcional del ancho y alto
         new_width = int(video.size[0] * resolution_scale)

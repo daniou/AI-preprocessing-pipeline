@@ -27,10 +27,4 @@ class AudioPreprocessing:
             output_path = os.path.join(output_dir, f'segment_{i}.wav')
             sf.write(output_path, audio_segment, sr)
 
-# Ejemplo de uso:
-audio_path = 'archivo.wav'
-output_directory = 'resultados'
 
-audio_processor = AudioProcessor(audio_path)
-intervals = audio_processor.split_audio_by_silence()
-audio_processor.save_audio_intervals(intervals, output_directory)
