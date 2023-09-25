@@ -7,7 +7,7 @@ class AudioPreprocessing:
     def __init__(self, audio_path):
         self.audio_path = audio_path
 
-    def split_audio_by_silence(self, top_db=20):
+    def split_audio_by_silence(self, top_db=40):
         # Cargar el archivo de audio
         y, sr = librosa.load(self.audio_path)
 

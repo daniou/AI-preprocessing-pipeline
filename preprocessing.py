@@ -44,6 +44,7 @@ class Preprocess:
                 for file in files:
                     file_path = os.path.join(folder_path, file)
                     destination_file_path = os.path.join(destination_folder_path, file)
+                    print("@@@@", destination_file_path)
                     preprocessing = VideoPreprocessing(file_path)
                     preprocessing.downsample_video(destination_file_path)
                     preprocessing.split_video_in_talking_intervals(destination_file_path)
