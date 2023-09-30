@@ -9,9 +9,10 @@ from preprocessing import Preprocess
 # TODO: PARA LAS FEATURES QUIZAS SE PODRÍA HACER UN CSV VINCULADO A CADA FILE
 # TODO: GESTION DE ERRORES Y REINTENTOS EN PROCESAMIENTO DE ARCHIVOS
 # TODO: FACILITAR INTERFAZ O ALGO PARA EVITAR PONER FPS, BITRATES... INCORRECTOS
+
 def show_dataset_structure():
     dataset_path = 'dataset'
-    folders = os.listdir(dataset_path)
+    folders = [folder for folder in os.listdir(dataset_path) if os.path.isdir(os.path.join(dataset_path, folder))]
     table_data = []
 
     for folder in folders:

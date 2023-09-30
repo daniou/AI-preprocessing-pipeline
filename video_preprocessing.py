@@ -1,5 +1,6 @@
 import os
 
+import librosa
 import moviepy.editor as mp
 import config
 
@@ -18,8 +19,8 @@ class VideoPreprocessing:
         os.makedirs(output_dir, exist_ok=True)
 
         for i, interval in enumerate(intervals):
-            start_time = interval[0] / clip.fps
-            end_time = interval[1] / clip.fps
+            start_time = interval[0]
+            end_time = interval[1]
 
             # Genera el nombre de archivo de salida para el subclip
             base_filename = os.path.splitext(os.path.basename(self.video_path))[0]
@@ -37,8 +38,9 @@ class VideoPreprocessing:
         output_dir = os.path.dirname(audio_path)
         print("------", output_dir)
         audio_preprocessing.save_audio_intervals(intervals, output_dir)
-        intervals_in_seconds = intervals/config.TARGET_AUDIO_SAMPLERATE
-        print(intervals_in_seconds, output_dir)
+        sr = librosa.get_samplerate(audio_path)
+        intervals_in_seconds = intervals/22000
+        print(f"intervalos{sr}: ",intervals_in_seconds, audio_path)
         self.split_video(intervals_in_seconds, output_dir)
 
     def downsample_video(self, output_path, target_fps=config.TARGET_VIDEO_FPS,
@@ -69,7 +71,7 @@ class VideoPreprocessing:
 # Example usage:
 video_path = "dataset/bad/1_woman_23.mp4"
 output_dir = "."
-intervals = [(2, 5), (5, 8)]  # Define your intervals here
+intervals = [(3, 5), (5, 8)]  # Define your intervals here
 
 # Initialize your class
 your_instance = VideoPreprocessing(video_path)
