@@ -9,11 +9,13 @@ from audio_preprocessing import AudioPreprocessing
 
 class VideoPreprocessing:
     def __init__(self, video_path):
+        self.downsampled_video_path = None
+        self.downsampled_audio_path = None
         self.video_path = video_path
 
     def split_video(self, intervals, output_dir):
-        clip = mp.VideoFileClip(self.video_path)
-        print(self.video_path)
+        print("---+++", self.downsampled_video_path)
+        clip = mp.VideoFileClip(self.downsampled_video_path)
 
         # Crea el directorio de salida si no existe
         os.makedirs(output_dir, exist_ok=True)
@@ -32,15 +34,15 @@ class VideoPreprocessing:
             subclip.write_videofile(subclip_path, codec="libx264")
 
     def split_video_in_talking_intervals(self, output_path):
-        audio_path = output_path.replace("mp4", "mp3")
-        audio_preprocessing = AudioPreprocessing(audio_path)
+        audio_preprocessing = AudioPreprocessing(self.downsampled_audio_path)
         intervals = audio_preprocessing.split_audio_by_silence()
-        output_dir = os.path.dirname(audio_path)
-        print("------", output_dir)
+
+        output_dir = os.path.dirname(output_path)
+        print("------", self.downsampled_audio_path)
         audio_preprocessing.save_audio_intervals(intervals, output_dir)
-        sr = librosa.get_samplerate(audio_path)
+        sr = librosa.get_samplerate(self.downsampled_audio_path)
         intervals_in_seconds = intervals/22000
-        print(f"intervalos{sr}: ",intervals_in_seconds, audio_path)
+
         self.split_video(intervals_in_seconds, output_dir)
 
     def downsample_video(self, output_path, target_fps=config.TARGET_VIDEO_FPS,
@@ -53,7 +55,7 @@ class VideoPreprocessing:
         # Extraer el audio y guardar el archivo mp3
         audio = video.audio
         audio_path = output_path.replace(".mp4", ".mp3")
-
+        self.downsampled_audio_path = audio_path
         audio.write_audiofile(audio_path, fps=audio_samplerate, bitrate=audio_bitrate, logger=None)
 
         # Reducción proporcional del ancho y alto
@@ -65,16 +67,8 @@ class VideoPreprocessing:
         video = video.set_audio(None)  # Desactivar el audio
         video = video.set_fps(target_fps)
         video.write_videofile(output_path, codec="libx264", audio=False, logger=None)
+        self.downsampled_video_path = output_path
+        print("#######",self.downsampled_video_path)
 
 
 
-# Example usage:
-video_path = "dataset/bad/1_woman_23.mp4"
-output_dir = "."
-intervals = [(3, 5), (5, 8)]  # Define your intervals here
-
-# Initialize your class
-your_instance = VideoPreprocessing(video_path)
-
-# Call the split_media method
-your_instance.split_video(intervals, output_dir)
