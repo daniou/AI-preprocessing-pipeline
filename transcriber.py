@@ -49,20 +49,3 @@ class AudioTranscriber:
             return self.transcribe_video(video_path)
         else:
             return "Formato de archivo no compatible."
-
-
-# Ejemplo de uso
-transcriber = AudioTranscriber()
-mp3_path = "archivo.mp3"
-transcription = transcriber.transcribe_file(mp3_path)
-print("Transcripción del archivo:", transcription)
-print("-------------------")
-
-audio_paths = os.listdir("resultados2")
-print(audio_paths)
-global_transcription = ""
-for audio in audio_paths:
-    chunk_transcription = transcriber.transcribe_file(mp3_path)
-    global_transcription += chunk_transcription
-
-print("Transcripción de chunks unificada: ", global_transcription)
