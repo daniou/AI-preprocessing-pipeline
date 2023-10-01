@@ -48,11 +48,12 @@ class VideoPreprocessing:
         intervals = audio_preprocessing.split_audio_by_silence()
 
         output_dir = os.path.dirname(output_path)
-        print("------", self.downsampled_audio_path)
+        print("------", intervals)
         audio_preprocessing.save_audio_intervals(intervals, output_dir)
-        #sr = librosa.get_samplerate(self.downsampled_audio_path)
+        sr = librosa.get_samplerate(self.downsampled_audio_path)
 
         intervals_in_seconds = remove_too_small_intervals(intervals/22000)
+        print(f"@@@@@@@@@@@@@@@{sr}", intervals_in_seconds," | ", intervals/sr)
 
         self.split_video(intervals_in_seconds, output_dir)
 
@@ -90,6 +91,3 @@ class VideoPreprocessing:
         self.downsample_video(destination_file_path)
         self.split_video_in_talking_intervals(destination_file_path)
         self.delete_temp_files()
-
-a = remove_too_small_intervals([[0.0,0.9],[1.0,2.0],[2.0, 4.0]])
-print(a)

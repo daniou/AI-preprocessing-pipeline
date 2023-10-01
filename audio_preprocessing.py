@@ -13,6 +13,7 @@ class AudioPreprocessing:
         y, sr = librosa.load(self.audio_path)
 
         # Detectar segmentos de silencio en el audio
+        #WARNING: EL SR DE LOS INTERVALOS SE CAMBIA CON FRAME_LENTGTH HOP_LENGTH
         intervals = librosa.effects.split(y, top_db=top_db, ref=np.max, frame_length=4096, hop_length=512)
         return intervals
 

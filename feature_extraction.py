@@ -25,7 +25,7 @@ class FeatureExtraction:
         # Escribir los datos en un archivo CSV
         with open(output_csv, 'w', newline='') as csvfile:
             csv_writer = csv.writer(csvfile)
-            csv_writer.writerow(['Archivo', 'Transcripción', 'Carpeta'])
+            csv_writer.writerow(['File', 'Transcription', 'Classification', 'Sentiment','Emotion'])
             csv_writer.writerows(video_features)
 
 # Ejemplo de uso:
